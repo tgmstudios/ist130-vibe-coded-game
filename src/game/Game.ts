@@ -43,13 +43,17 @@ export class Game {
     const dpr = window.devicePixelRatio || 1;
     const rect = this.canvas.getBoundingClientRect();
     
+    // Ensure we have valid dimensions
+    const displayWidth = rect.width || window.innerWidth || 800;
+    const displayHeight = rect.height || window.innerHeight || 600;
+    
     // Set display size
-    this.canvas.style.width = `${rect.width}px`;
-    this.canvas.style.height = `${rect.height}px`;
+    this.canvas.style.width = `${displayWidth}px`;
+    this.canvas.style.height = `${displayHeight}px`;
     
     // Set actual size in memory (scaled for DPR)
-    const width = rect.width * dpr;
-    const height = rect.height * dpr;
+    const width = displayWidth * dpr;
+    const height = displayHeight * dpr;
     
     // Only resize if dimensions changed to avoid unnecessary context resets
     if (this.canvas.width !== width || this.canvas.height !== height) {
@@ -62,7 +66,7 @@ export class Game {
     }
     
     // Update renderer dimensions (in logical pixels)
-    this.renderer.setDimensions(rect.width, rect.height);
+    this.renderer.setDimensions(displayWidth, displayHeight);
   }
 
   private update(deltaTime: number): void {
