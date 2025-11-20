@@ -10,7 +10,6 @@ export class Game {
   private inputManager: InputManager;
   private scene: Scene;
   private gameLoop: GameLoop;
-  private lastTime: number = 0;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;

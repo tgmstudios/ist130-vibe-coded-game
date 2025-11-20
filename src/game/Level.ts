@@ -73,7 +73,6 @@ export class Level {
 
   public checkCollisions(entity: PhysicsBody): void {
     const bounds = entity.getBounds();
-    let onGround = false;
 
     // Check platform collisions
     for (const platform of this.platforms) {

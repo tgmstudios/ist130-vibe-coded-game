@@ -93,7 +93,6 @@ export class Scene {
   }
 
   public draw(renderer: Renderer): void {
-    const ctx = renderer.getContext();
     const cameraX = this.camera.getX();
     const cameraY = this.camera.getY();
 
@@ -114,7 +113,7 @@ export class Scene {
     this.drawStormOverlay(renderer);
   }
 
-  private drawParallaxBackground(renderer: Renderer, cameraX: number, cameraY: number): void {
+  private drawParallaxBackground(renderer: Renderer, cameraX: number, _cameraY: number): void {
     const ctx = renderer.getContext();
     const width = renderer.getWidth();
     const height = renderer.getHeight();
