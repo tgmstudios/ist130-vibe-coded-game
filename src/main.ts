@@ -1,16 +1,21 @@
+console.log('Game script loading...');
+
 import { Game } from './game/Game';
 
 // Initialize the game when the page loads
-window.addEventListener('DOMContentLoaded', () => {
+function initGame() {
+  console.log('Initializing game...');
   try {
     const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
     if (!canvas) {
       console.error('Canvas element not found');
       return;
     }
+    console.log('Canvas found, creating game...');
 
     const game = new Game(canvas);
     game.start();
+    console.log('Game started successfully!');
   } catch (error) {
     console.error('Failed to initialize game:', error);
     // Show error message to user
@@ -27,5 +32,12 @@ window.addEventListener('DOMContentLoaded', () => {
       `;
     }
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initGame);
+} else {
+  // DOM is already ready
+  initGame();
+}
 
