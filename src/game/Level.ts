@@ -229,4 +229,5 @@ export class Level {
   public getLevelHeight(): number {
     return this.data.height;
   }
+}
 

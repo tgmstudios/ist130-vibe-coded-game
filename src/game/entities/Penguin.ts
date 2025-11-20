@@ -25,9 +25,12 @@ export class Penguin extends PhysicsBody {
     }
 
     // Handle jumping (Mario-style: press to jump, variable height)
-    if (this.inputManager.isJumpPressed() && this.isOnGround) {
+    // Check jump with buffer system for reliability
+    if (this.isOnGround && this.inputManager.isJumpPressed()) {
       this.velocityY = -this.jumpPower;
       this.isOnGround = false;
+      // Consume the jump input so it doesn't trigger multiple times
+      this.inputManager.consumeJump();
     }
 
     // Apply physics

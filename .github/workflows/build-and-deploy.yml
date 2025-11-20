@@ -32,7 +32,7 @@ jobs:
     - name: Generate Website Tag Names
       run: |
         echo "${{ steps.extract_branch.outputs.branch }}"
-        if [ ${{ steps.extract_branch.outputs.branch }} = "master" ]; then
+        if [ ${{ steps.extract_branch.outputs.branch }} = "main" ]; then
           echo "TAG_LATEST_WEBSITE=ist130-final-project:latest" >> $GITHUB_ENV
           echo "TAG_COMMIT_WEBSITE=ist130-final-project:$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         elif [ ${{ steps.extract_branch.outputs.branch }} = "staging" ]; then
@@ -89,7 +89,7 @@ jobs:
         }
 
         echo "${{ steps.extract_branch.outputs.branch }}"
-        if [ ${{ steps.extract_branch.outputs.branch }} = "master" ]; then
+        if [ ${{ steps.extract_branch.outputs.branch }} = "main" ]; then
             namespace=ist130-final-project
             redeploy "game"
         elif [ ${{ steps.extract_branch.outputs.branch }} = "staging" ]; then

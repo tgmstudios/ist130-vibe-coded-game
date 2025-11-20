@@ -1,7 +1,8 @@
 export class InputManager {
   private keys: Map<string, boolean> = new Map();
-  private keysPressed: Map<string, boolean> = new Map();
+  private keysPrevious: Map<string, boolean> = new Map();
   private keysJustPressed: Set<string> = new Set();
+  private jumpKeyBuffer: Set<string> = new Set(); // Buffer for jump keys that haven't been consumed
 
   constructor() {
     window.addEventListener('keydown', (e) => {
@@ -10,32 +11,35 @@ export class InputManager {
         e.preventDefault();
       }
       
-      // Track if this is a new key press (wasn't already down)
-      if (!this.keys.get(e.code)) {
-        this.keysJustPressed.add(e.code);
+      // If it's a jump key and wasn't already down, add to buffer
+      if ((e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') && !this.keys.get(e.code)) {
+        this.jumpKeyBuffer.add(e.code);
       }
+      
       this.keys.set(e.code, true);
     });
 
     window.addEventListener('keyup', (e) => {
       this.keys.set(e.code, false);
-      this.keysJustPressed.delete(e.code);
+      this.jumpKeyBuffer.delete(e.code);
     });
   }
 
   public update(): void {
-    // Clear previous frame's pressed keys
-    this.keysPressed.clear();
-    
-    // Copy just-pressed keys to the pressed map for this frame
-    const keysToProcess = new Set(this.keysJustPressed);
-    keysToProcess.forEach(key => {
-      this.keysPressed.set(key, true);
+    // Detect keys that were just pressed this frame (transition from false to true)
+    this.keysJustPressed.clear();
+    this.keys.forEach((isDown, key) => {
+      const wasDown = this.keysPrevious.get(key) === true;
+      if (isDown && !wasDown) {
+        this.keysJustPressed.add(key);
+      }
     });
     
-    // Clear just-pressed set for next frame
-    // (they're now in keysPressed, and new keydowns will repopulate keysJustPressed)
-    this.keysJustPressed.clear();
+    // Update previous frame's state
+    this.keysPrevious.clear();
+    this.keys.forEach((isDown, key) => {
+      this.keysPrevious.set(key, isDown);
+    });
   }
 
   public isKeyDown(key: string): boolean {
@@ -43,8 +47,8 @@ export class InputManager {
   }
 
   public isKeyPressed(key: string): boolean {
-    // Check both the pressed map (from previous frame) and just-pressed set (this frame)
-    return this.keysPressed.get(key) === true || this.keysJustPressed.has(key);
+    // Check if key was just pressed this frame
+    return this.keysJustPressed.has(key);
   }
 
   public getHorizontalAxis(): number {
@@ -55,7 +59,17 @@ export class InputManager {
   }
 
   public isJumpPressed(): boolean {
+    // Check buffer first (most reliable)
+    if (this.jumpKeyBuffer.size > 0) {
+      return true;
+    }
+    // Fallback to frame-based detection
     return this.isKeyPressed('Space') || this.isKeyPressed('KeyW') || this.isKeyPressed('ArrowUp');
+  }
+
+  public consumeJump(): void {
+    // Clear the jump buffer after jump is executed
+    this.jumpKeyBuffer.clear();
   }
 }
 
