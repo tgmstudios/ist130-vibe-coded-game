@@ -16,7 +16,7 @@ export const level1Data: LevelData = {
     // Ground platform
     { x: 850, y: 700, width: 200, height: 20 },
     // Higher platform (adjusted to be reachable from ground platform)
-    { x: 1100, y: 600, width: 150, height: 20 },
+    { x: 1100, y: 620, width: 150, height: 20 },
     // Lower platform
     { x: 1300, y: 650, width: 150, height: 20 },
     // Final platform
@@ -29,7 +29,7 @@ export const level1Data: LevelData = {
     { x: 300, y: 600, type: 'star' },
     { x: 500, y: 550, type: 'star' },
     { x: 700, y: 500, type: 'star' },
-    { x: 1150, y: 550, type: 'star' },
+    { x: 1150, y: 570, type: 'star' },
     { x: 1350, y: 600, type: 'star' },
     { x: 1550, y: 550, type: 'star' },
     // Hearts for encouragement
@@ -39,7 +39,7 @@ export const level1Data: LevelData = {
   enemies: [
     // Snowball enemies patrolling platforms
     { x: 600, y: 520, patrolDistance: 80 },
-    { x: 1200, y: 570, patrolDistance: 100 },
+    { x: 1200, y: 590, patrolDistance: 100 },
     { x: 1400, y: 620, patrolDistance: 80 },
   ],
   catPosition: { x: 1850, y: 650 }
