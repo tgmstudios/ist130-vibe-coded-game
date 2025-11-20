@@ -96,7 +96,6 @@ export class Level {
             entity.setPosition(bounds.x, platformBounds.y - bounds.height);
             entity.setVelocity(entity.getVelocityX(), 0);
             entity.setOnGround(true);
-            onGround = true;
           } else {
             // Bottom collision (hitting ceiling)
             entity.setPosition(bounds.x, platformBounds.y + platformBounds.height);
