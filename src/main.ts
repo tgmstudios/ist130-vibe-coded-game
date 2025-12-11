@@ -1,6 +1,6 @@
 console.log('Game script loading...');
 
-import { Game } from './game/Game';
+import { createGame } from './game/PhaserGame';
 
 // Initialize the game when the page loads
 function initGame() {
@@ -13,8 +13,7 @@ function initGame() {
     }
     console.log('Canvas found, creating game...');
 
-    const game = new Game(canvas);
-    game.start();
+    createGame(canvas);
     console.log('Game started successfully!');
   } catch (error) {
     console.error('Failed to initialize game:', error);
@@ -40,4 +39,3 @@ if (document.readyState === 'loading') {
   // DOM is already ready
   initGame();
 }
-
