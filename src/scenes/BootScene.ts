@@ -10,7 +10,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('PreloaderScene');
+    this.scene.start('LoadingScene');
   }
 }
 

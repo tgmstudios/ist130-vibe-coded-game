@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { BootScene } from '../scenes/BootScene';
+import { LoadingScene } from '../scenes/LoadingScene';
 import { PreloaderScene } from '../scenes/PreloaderScene';
 import { MenuScene } from '../scenes/MenuScene';
 import { PrologueScene } from '../scenes/PrologueScene';
@@ -22,7 +23,7 @@ export const createGame = (canvas: HTMLCanvasElement) => {
         debug: false // Set to true to see hitboxes
       }
     },
-    scene: [BootScene, PreloaderScene, MenuScene, PrologueScene, GameScene, HUDScene, EndingScene, PauseScene],
+    scene: [BootScene, LoadingScene, PreloaderScene, MenuScene, PrologueScene, GameScene, HUDScene, EndingScene, PauseScene],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH

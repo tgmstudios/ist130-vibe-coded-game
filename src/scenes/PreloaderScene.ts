@@ -118,7 +118,7 @@ export class PreloaderScene extends Phaser.Scene {
     }
 
     this.createAnimations();
-    this.scene.start('MenuScene');
+    // LoadingScene will handle the transition to MenuScene when assets are loaded
   }
 
   private createAnimations() {
