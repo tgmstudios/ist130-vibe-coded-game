@@ -179,19 +179,19 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
       // Shiver override
       if (this.currentState === PlayerState.IDLE && this.idleTimer > this.IDLE_SHIVER_TIME) {
-          // Play shiver if exists, else idle
-          // Since we don't have explicit shiver, maybe toggle tint or scale?
-          // Or just standard idle for now
-          // We can use a tween to simulate shivering
+          // Simulate shivering with a rotation tween
           if (!this.scene.tweens.isTweening(this)) {
               this.scene.tweens.add({
                   targets: this,
-                  x: this.x + 2,
+                  angle: { from: -2, to: 2 },
                   duration: 50,
                   yoyo: true,
-                  repeat: 5
+                  repeat: 10,
+                  onComplete: () => {
+                      this.angle = 0; // Reset
+                  }
               });
-              this.idleTimer = 0; // Reset so it doesn't loop constantly
+              this.idleTimer = 0; // Reset timer
           }
       }
 

@@ -8,17 +8,22 @@ export class HUDScene extends Phaser.Scene {
   }
 
   create(data: { collected: number }) {
-    this.scoreText = this.add.text(20, 20, `Fish: ${data.collected || 0}`, { 
-        fontSize: '24px', 
+    // Fish Icon
+    this.add.image(30, 30, 'fish').setScale(0.1);
+
+    // Text
+    this.scoreText = this.add.text(50, 20, `${data.collected || 0}`, { 
+        fontSize: '32px', 
         color: '#ffffff',
+        fontFamily: 'Arial', // Or a better game font if available
         stroke: '#000000',
-        strokeThickness: 2
+        strokeThickness: 4
     });
 
     const gameScene = this.scene.get('GameScene');
     if (gameScene) {
         gameScene.events.on('updateHUD', (count: number) => {
-            this.scoreText.setText(`Fish: ${count}`);
+            this.scoreText.setText(`${count}`);
         });
     }
   }

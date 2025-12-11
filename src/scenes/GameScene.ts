@@ -2,12 +2,15 @@ import Phaser from 'phaser';
 import { Player } from '../entities/Player';
 import { InputManager } from '../managers/InputManager';
 import { LevelManager } from '../managers/LevelManager';
+import { AudioManager } from '../managers/AudioManager';
 import { LevelConfig, GAME_WIDTH, GAME_HEIGHT } from '../types';
+import { DialogueBubble } from '../ui/DialogueBubble';
 
 export class GameScene extends Phaser.Scene {
   private player!: Player;
   private inputMgr!: InputManager;
   private levelMgr!: LevelManager;
+  private audioMgr!: AudioManager;
   private currentLevelId: number = 1;
   private levelConfig!: LevelConfig;
   
@@ -19,7 +22,10 @@ export class GameScene extends Phaser.Scene {
   private goal!: Phaser.GameObjects.Sprite;
   private windZones!: Phaser.Types.Physics.Arcade.ImageWithDynamicBody[];
   private bouncers!: Phaser.Physics.Arcade.StaticGroup;
+  private npcs!: Phaser.GameObjects.Group;
   
+  private npcBubbles: Map<Phaser.GameObjects.GameObject, DialogueBubble> = new Map();
+
   // Mechanics
   private darknessRT?: Phaser.GameObjects.RenderTexture;
   private mist?: Phaser.GameObjects.Particles.ParticleEmitter;
@@ -45,6 +51,7 @@ export class GameScene extends Phaser.Scene {
   create() {
     this.inputMgr = new InputManager(this);
     this.levelMgr = new LevelManager(this);
+    this.audioMgr = new AudioManager(this);
     this.levelConfig = this.levelMgr.getLevelConfig(this.currentLevelId);
 
     // Background
@@ -61,6 +68,26 @@ export class GameScene extends Phaser.Scene {
     this.goal = levelObjects.goal;
     this.windZones = levelObjects.windZones || [];
     this.bouncers = levelObjects.bouncers;
+    this.npcs = levelObjects.npcs;
+
+    // Create NPC Bubbles
+    if (this.bouncers) {
+        this.bouncers.children.iterate((child: any) => {
+            // Barnaby Bubble (Bounce hint)
+            const bubble = new DialogueBubble(this, child.x, child.y - 50, undefined, "Bounce!");
+            this.npcBubbles.set(child, bubble);
+            return true;
+        });
+    }
+    
+    if (this.npcs) {
+        this.npcs.children.iterate((child: any) => {
+            // Luna Bubble (Hoot/Hint)
+            const bubble = new DialogueBubble(this, child.x, child.y - 50, undefined, "Hoot!");
+            this.npcBubbles.set(child, bubble);
+            return true;
+        });
+    }
 
     // Player
     this.player = new Player(this, this.levelConfig.startPosition.x, this.levelConfig.startPosition.y, this.inputMgr);
@@ -87,10 +114,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     // Music
-    this.sound.stopAll();
-    if (this.cache.audio.exists(this.levelConfig.music)) {
-        this.sound.play(this.levelConfig.music, { loop: true, volume: 0.5 });
-    }
+    this.audioMgr.stopAll();
+    this.audioMgr.playMusic(this.levelConfig.music);
 
     // Level Specific Setup
     this.setupLevelMechanics();
@@ -122,6 +147,23 @@ export class GameScene extends Phaser.Scene {
       if (this.player.y > GAME_HEIGHT) {
           this.scene.restart({ level: this.currentLevelId });
       }
+
+      // Update Bubbles
+      this.updateNPCBubbles();
+  }
+
+  private updateNPCBubbles() {
+      const playerPos = new Phaser.Math.Vector2(this.player.x, this.player.y);
+      this.npcBubbles.forEach((bubble, npc) => {
+          const npcPos = new Phaser.Math.Vector2((npc as any).x, (npc as any).y);
+          const dist = playerPos.distance(npcPos);
+          
+          if (dist < 200) {
+              bubble.show();
+          } else {
+              bubble.hide();
+          }
+      });
   }
 
   private setupLevelMechanics() {
@@ -299,7 +341,7 @@ export class GameScene extends Phaser.Scene {
       item.disableBody(true, true);
   }
   
-  private hitBouncer(player: any, bouncer: any) {
+  private hitBouncer(_player: any, bouncer: any) {
       if (this.player.body!.touching.down && bouncer.body.touching.up) {
           this.player.setVelocityY(-900); // Big bounce (Higher)
           // Play sound
