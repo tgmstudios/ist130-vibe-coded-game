@@ -8,8 +8,9 @@ const currentView = ref<'game' | 'media'>('game');
 onMounted(() => {
   // Simple routing based on URL path or hash
   const path = window.location.pathname;
-  
-  if (path.startsWith('/media')) {
+
+  // Check if the path contains '/media' (handles subdirectory deployments)
+  if (path.includes('/media')) {
     currentView.value = 'media';
   } else {
     currentView.value = 'game';

@@ -17,6 +17,7 @@
       padding: 0;
       overflow: hidden;
       color: #e8f4f8;
+      background: #000000;
     }
 
     #game-container {
@@ -36,6 +37,31 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       background: linear-gradient(135deg, #2d3a5c 0%, #3a4a6b 50%, #1a2332 100%);
+      border: 2px solid transparent;
+      border-image: linear-gradient(45deg, #4a90e2, #63a4ff, #87ceeb, #b0e0e6) 1;
+      box-shadow:
+        0 0 0 1px rgba(74, 144, 226, 0.3),
+        0 0 15px rgba(74, 144, 226, 0.1),
+        inset 0 0 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    canvas::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(45deg,
+        rgba(74, 144, 226, 0.1) 0%,
+        rgba(99, 164, 255, 0.2) 25%,
+        rgba(135, 206, 235, 0.1) 50%,
+        rgba(176, 224, 230, 0.2) 75%,
+        rgba(74, 144, 226, 0.1) 100%);
+      border-radius: 8px;
+      z-index: -1;
+      pointer-events: none;
     }
 
     #ui {
