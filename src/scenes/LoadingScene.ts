@@ -38,7 +38,7 @@ export class LoadingScene extends Phaser.Scene {
     this.createSnowParticles();
 
     // Title text
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.15, 'Penguin Journey', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.15, 'WinterTrek: Snowbound & Snuggles', {
       font: 'bold 48px Arial',
       color: '#ffffff',
       stroke: '#000000',

@@ -1,4 +1,4 @@
-# Penguin Journey - A Winter Adventure
+# WinterTrek: Snowbound & Snuggles
 
 A heartfelt 2D platformer web game about a penguin journeying through a harsh winter storm to reach his cat friend.
 
