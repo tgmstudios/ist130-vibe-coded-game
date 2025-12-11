@@ -9,7 +9,9 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    sourcemap: true
+    sourcemap: true,
+    // Inline CSS into JS bundle to avoid relying on correct CSS mime-type on host
+    cssCodeSplit: false
   }
 });
 
