@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import loadingBg from '../assets/background_ocean.png';
 import { GAME_WIDTH, GAME_HEIGHT } from '../types';
 
 export class LoadingScene extends Phaser.Scene {
@@ -15,7 +16,8 @@ export class LoadingScene extends Phaser.Scene {
 
   preload() {
     // Load minimal assets needed for the loading screen
-    this.load.image('loading_bg', '/src/assets/background_ocean.png');
+    // Use bundled asset path so it works in production builds
+    this.load.image('loading_bg', loadingBg);
 
     // Create snow particle texture if it doesn't exist
     if (!this.textures.exists('snow_particle')) {
