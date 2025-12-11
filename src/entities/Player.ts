@@ -14,7 +14,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   private readonly JUMP_FORCE = -600;
   private readonly SLIDE_ACCEL = 400;
   private readonly SLIDE_DRAG = 100;
-  private readonly FLAP_FORCE = -50; // Force applied when flapping
+  // private readonly FLAP_FORCE = -50; // Force applied when flapping
   
   // Jump Mechanics
   private coyoteTimeCounter = 0;
@@ -22,7 +22,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   private jumpBufferCounter = 0;
   private readonly JUMP_BUFFER = 150; // ms
   private isJumping = false;
-  private canFlap = false;
+  // private canFlap = false;
   private isFlapping = false;
 
   // Idle Mechanics
@@ -47,16 +47,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // New: 40x60 (Wider and Taller).
     // Offset X: (128 - 40) / 2 = 44.
     // Offset Y: 128 - 60 = 68.
-    this.setBodySize(40, 60); 
-    this.setBodyOffset(44, 68);
+    this.updateBodySize(40, 60); 
+    this.updateBodyOffset(44, 68);
   }
 
-  update(time: number, delta: number) {
+  update(_time: number, delta: number) {
     // Timers
     if (this.body?.blocked.down) {
         this.coyoteTimeCounter = this.COYOTE_TIME;
         this.isJumping = false;
-        this.canFlap = false;
+        // this.canFlap = false;
         this.isFlapping = false;
     } else {
         this.coyoteTimeCounter = Math.max(0, this.coyoteTimeCounter - delta);
@@ -89,8 +89,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
            // Slide height: 30?
            // Feet at 68 + 60 = 128.
            // Slide Offset Y = 128 - 30 = 98.
-           this.setBodySize(40, 30);
-           this.setBodyOffset(44, 98);
+           this.updateBodySize(40, 30);
+           this.updateBodyOffset(44, 98);
         }
 
         if (left) this.setAccelerationX(-this.SLIDE_ACCEL * 0.5);
@@ -100,8 +100,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
         // Normal movement
         if (this.currentState === PlayerState.SLIDE) {
-             this.setBodySize(40, 60);
-             this.setBodyOffset(44, 68);
+             this.updateBodySize(40, 60);
+             this.updateBodyOffset(44, 68);
         }
 
         this.setDragX(onGround ? this.DRAG : this.AIR_DRAG);
@@ -201,10 +201,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   // Helper for setting body size/offset
-  private setBodySize(w: number, h: number) {
+  private updateBodySize(w: number, h: number) {
       this.body?.setSize(w, h);
   }
-  private setBodyOffset(x: number, y: number) {
+  private updateBodyOffset(x: number, y: number) {
       this.body?.setOffset(x, y);
   }
 }

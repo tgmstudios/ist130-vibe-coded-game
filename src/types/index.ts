@@ -24,6 +24,7 @@ export interface LevelConfig {
   };
   startPosition: { x: number; y: number };
   goalPosition?: { x: number; y: number };
+  width?: number;
   tilemap?: string; 
 }
 

@@ -24,7 +24,7 @@ export class GameScene extends Phaser.Scene {
   private darknessRT?: Phaser.GameObjects.RenderTexture;
   private mist?: Phaser.GameObjects.Particles.ParticleEmitter;
   private mistWindy?: Phaser.GameObjects.Particles.ParticleEmitter;
-  private windEmitter?: Phaser.GameObjects.Particles.ParticleEmitter;
+  // private windEmitter?: Phaser.GameObjects.Particles.ParticleEmitter; // Removed global wind
   private bg?: Phaser.GameObjects.TileSprite;
   private lightSprite?: Phaser.GameObjects.Image;
   private collectedCount = 0;
@@ -67,8 +67,9 @@ export class GameScene extends Phaser.Scene {
 
     // Camera
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-    this.cameras.main.setBounds(0, 0, 4000, GAME_HEIGHT); 
-    this.physics.world.setBounds(0, 0, 4000, GAME_HEIGHT);
+    const worldWidth = this.levelConfig.width || 4000;
+    this.cameras.main.setBounds(0, 0, worldWidth, GAME_HEIGHT); 
+    this.physics.world.setBounds(0, 0, worldWidth, GAME_HEIGHT);
     // Allow falling off the world bottom
     this.physics.world.setBoundsCollision(true, true, true, false);
 
@@ -106,11 +107,11 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  update(time: number, delta: number) {
+  update(_time: number, delta: number) {
       if (this.isEnding) return;
 
-      this.player.update(time, delta);
-      this.updateLevelMechanics(time, delta);
+      this.player.update(_time, delta);
+      this.updateLevelMechanics(_time, delta);
 
       // Parallax Background
       if (this.bg) {
@@ -182,12 +183,12 @@ export class GameScene extends Phaser.Scene {
            this.darknessRT.setDepth(100);
            
            if (!this.textures.exists('light_circle')) {
-               const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+               const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
                graphics.fillStyle(0xffffff);
                graphics.fillCircle(50, 50, 50);
                graphics.generateTexture('light_circle', 100, 100);
            }
-           this.lightSprite = this.make.image({ key: 'light_circle', add: false });
+           this.lightSprite = this.make.image({ key: 'light_circle', add: false } as any);
       }
   }
   
@@ -200,6 +201,7 @@ export class GameScene extends Phaser.Scene {
       // Wind Zones (Level 2)
       if (this.windZones.length > 0) {
           // Initialize wind visuals if not present
+          /* Global wind emitter removed in favor of local level visuals
           if (!this.windEmitter) {
                this.windEmitter = this.add.particles(0, 0, 'particle_wind', {
                    x: { min: 0, max: GAME_WIDTH },
@@ -216,6 +218,7 @@ export class GameScene extends Phaser.Scene {
                });
                this.windEmitter.setScrollFactor(0);
           }
+          */
 
           const wasInWind = this.isInWindZone;
           this.isInWindZone = false;
@@ -227,14 +230,15 @@ export class GameScene extends Phaser.Scene {
 
           // State change handling
           if (this.isInWindZone !== wasInWind) {
+              console.log('Wind Zone Transition:', this.isInWindZone);
               if (this.isInWindZone) {
                   // Enter Wind
-                  this.windEmitter.start();
+                  // if (this.windEmitter) this.windEmitter.start();
                   if (this.mist) this.mist.stop();
                   if (this.mistWindy) this.mistWindy.start();
               } else {
                   // Exit Wind
-                  this.windEmitter.stop();
+                  // if (this.windEmitter) this.windEmitter.stop();
                   if (this.mist) this.mist.start();
                   if (this.mistWindy) this.mistWindy.stop();
               }
@@ -274,7 +278,7 @@ export class GameScene extends Phaser.Scene {
       }
   }
 
-  private collectItem(player: any, item: any) {
+  private collectItem(_player: any, item: any) {
       if (item.texture.key === 'ember') {
           if (item.getData('type') === 'mitten') {
                // Show message?
@@ -295,14 +299,14 @@ export class GameScene extends Phaser.Scene {
       item.disableBody(true, true);
   }
   
-  private hitBouncer(player: any, bouncer: any) {
+  private hitBouncer(_player: any, bouncer: any) {
       if (this.player.body!.touching.down && bouncer.body.touching.up) {
           this.player.setVelocityY(-600); // Big bounce
           // Play sound
       }
   }
 
-  private hitEnemy(player: any, enemy: any) {
+  private hitEnemy(_player: any, enemy: any) {
       if (this.player.body!.velocity.y > 0 && this.player.y < enemy.y) {
           enemy.disableBody(true, true);
           this.player.setVelocityY(-300);
@@ -311,7 +315,7 @@ export class GameScene extends Phaser.Scene {
       }
   }
 
-  private reachGoal(player: any, goal: any) {
+  private reachGoal(_player: any, _goal: any) {
       if (this.currentLevelId < 5) {
           this.scene.start('GameScene', { level: this.currentLevelId + 1 });
       } else {

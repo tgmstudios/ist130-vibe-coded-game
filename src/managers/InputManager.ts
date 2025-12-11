@@ -4,7 +4,7 @@ export class InputManager {
   private scene: Phaser.Scene;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private jumpKey!: Phaser.Input.Keyboard.Key;
-  private slideKey!: Phaser.Input.Keyboard.Key;
+  // private slideKey!: Phaser.Input.Keyboard.Key;
   private wKey!: Phaser.Input.Keyboard.Key;
   private aKey!: Phaser.Input.Keyboard.Key;
   private sKey!: Phaser.Input.Keyboard.Key;
@@ -15,7 +15,7 @@ export class InputManager {
     if (this.scene.input.keyboard) {
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.jumpKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.slideKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        // this.slideKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.wKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.aKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.sKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);

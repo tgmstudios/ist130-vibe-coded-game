@@ -45,7 +45,7 @@ export class Level1 implements ILevel {
 
         // --- Bouncers ---
         // Barnaby on the middle island
-        const barnaby = bouncers.create(1400, 500, 'barnaby');
+        const barnaby = bouncers.create(1250, 500, 'barnaby');
         barnaby.refreshBody();
 
         // --- Collectibles ---

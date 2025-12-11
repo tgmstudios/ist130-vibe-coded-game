@@ -71,7 +71,7 @@ export class PreloaderScene extends Phaser.Scene {
   create() {
     // Create 1x1 white pixel for placeholders
     if (!this.textures.exists('pixel')) {
-        const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
         graphics.fillStyle(0xffffff);
         graphics.fillRect(0, 0, 1, 1);
         graphics.generateTexture('pixel', 1, 1);
@@ -79,10 +79,42 @@ export class PreloaderScene extends Phaser.Scene {
 
     // Create 96x32 platform texture for moving platforms
     if (!this.textures.exists('platform_96x32')) {
-        const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
         graphics.fillStyle(0xffffff);
         graphics.fillRect(0, 0, 96, 32);
         graphics.generateTexture('platform_96x32', 96, 32);
+    }
+
+    // --- Procedural Pattern Textures ---
+    // Forest Wood Pattern (Brown Stripes)
+    if (!this.textures.exists('pattern_wood')) {
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
+        // Base
+        graphics.fillStyle(0x8B4513); // SaddleBrown
+        graphics.fillRect(0, 0, 32, 32);
+        // Grain
+        graphics.lineStyle(2, 0x654321); // Darker Brown
+        graphics.beginPath();
+        graphics.moveTo(0, 10);
+        graphics.lineTo(32, 10);
+        graphics.moveTo(0, 20);
+        graphics.lineTo(32, 20);
+        graphics.strokePath();
+        graphics.generateTexture('pattern_wood', 32, 32);
+    }
+
+    // Cave Rock Pattern (Grey Stone)
+    if (!this.textures.exists('pattern_rock')) {
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
+        // Base
+        graphics.fillStyle(0x808080); // Grey
+        graphics.fillRect(0, 0, 32, 32);
+        // Cracks/Texture
+        graphics.fillStyle(0x606060); // Darker Grey
+        graphics.fillRect(5, 5, 10, 10);
+        graphics.fillRect(18, 18, 8, 8);
+        graphics.fillRect(20, 5, 5, 5);
+        graphics.generateTexture('pattern_rock', 32, 32);
     }
 
     this.createAnimations();

@@ -38,7 +38,7 @@ export class EndingScene extends Phaser.Scene {
     pippin.setFlipX(true); // Face Marmalade
 
     // Fire effect (simple particles)
-    const particles = this.add.particles(0, 0, 'pixel', {
+    this.add.particles(0, 0, 'pixel', {
         x: centerX,
         y: centerY + 50,
         speed: { min: 20, max: 50 },

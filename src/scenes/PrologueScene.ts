@@ -52,7 +52,7 @@ export class PrologueScene extends Phaser.Scene {
         }
     });
     // Skip Prompt
-    const skipText = this.add.text(GAME_WIDTH - 20, GAME_HEIGHT - 20, 'Press SPACE to Skip', {
+    this.add.text(GAME_WIDTH - 20, GAME_HEIGHT - 20, 'Press SPACE to Skip', {
         fontSize: '18px',
         color: '#ffffff',
     }).setOrigin(1, 1).setAlpha(0.5);
