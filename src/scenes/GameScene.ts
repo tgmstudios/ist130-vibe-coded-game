@@ -299,9 +299,9 @@ export class GameScene extends Phaser.Scene {
       item.disableBody(true, true);
   }
   
-  private hitBouncer(_player: any, bouncer: any) {
+  private hitBouncer(player: any, bouncer: any) {
       if (this.player.body!.touching.down && bouncer.body.touching.up) {
-          this.player.setVelocityY(-600); // Big bounce
+          this.player.setVelocityY(-900); // Big bounce (Higher)
           // Play sound
       }
   }
