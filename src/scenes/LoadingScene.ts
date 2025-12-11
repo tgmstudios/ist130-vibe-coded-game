@@ -7,7 +7,6 @@ export class LoadingScene extends Phaser.Scene {
   private loadingText!: Phaser.GameObjects.Text;
   private percentText!: Phaser.GameObjects.Text;
   private assetText!: Phaser.GameObjects.Text;
-  private snowEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
   private penguins: Phaser.GameObjects.Sprite[] = [];
 
   constructor() {
@@ -20,7 +19,7 @@ export class LoadingScene extends Phaser.Scene {
 
     // Create snow particle texture if it doesn't exist
     if (!this.textures.exists('snow_particle')) {
-      const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+      const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
       graphics.fillStyle(0xffffff);
       graphics.fillCircle(2, 2, 2);
       graphics.generateTexture('snow_particle', 4, 4);
@@ -37,7 +36,7 @@ export class LoadingScene extends Phaser.Scene {
     this.createSnowParticles();
 
     // Title text
-    const titleText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.15, 'Penguin Journey', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.15, 'Penguin Journey', {
       font: 'bold 48px Arial',
       color: '#ffffff',
       stroke: '#000000',
@@ -45,7 +44,7 @@ export class LoadingScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // Subtitle
-    const subtitleText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.25, 'A Winter Adventure', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.25, 'A Winter Adventure', {
       font: '24px Arial',
       color: '#e8f4f8',
       stroke: '#000000',
@@ -95,9 +94,9 @@ export class LoadingScene extends Phaser.Scene {
   }
 
   private createSnowParticles() {
-    const snowParticles = this.add.particles(GAME_WIDTH / 2, -10, 'snow_particle', {
-      speed: { min: 20, max: 50 },
-      angle: { min: 80, max: 100 },
+    this.add.particles(GAME_WIDTH / 2, -10, 'snow_particle', {
+      speedY: { min: 20, max: 50 },
+      speedX: { min: -10, max: 10 },
       scale: { start: 0.5, end: 0 },
       alpha: { start: 0.8, end: 0 },
       lifespan: 8000,
@@ -105,30 +104,26 @@ export class LoadingScene extends Phaser.Scene {
       quantity: 1,
       frequency: 200
     });
-
-    // Add some wind variation
-    this.time.addEvent({
-      delay: 3000,
-      callback: () => {
-        snowParticles.setParticleSpeed({ min: 15, max: 60 });
-      },
-      loop: true
-    });
   }
 
   private createPenguinSilhouettes() {
     // Create simple penguin silhouettes using graphics
     for (let i = 0; i < 3; i++) {
-      const graphics = this.add.graphics();
-      graphics.fillStyle(0x000000, 0.6);
-      graphics.fillRoundedRect(0, 0, 20, 30, 5); // Body
-      graphics.fillRoundedRect(5, -10, 10, 15, 3); // Head
-      graphics.fillTriangle(7, 18, 13, 18, 10, 25); // Beak
+      const textureKey = `penguin_${i}`;
+
+      if (!this.textures.exists(textureKey)) {
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false } as any);
+        graphics.fillStyle(0x000000, 0.6);
+        graphics.fillRoundedRect(0, 0, 20, 30, 5); // Body
+        graphics.fillRoundedRect(5, -10, 10, 15, 3); // Head
+        graphics.fillTriangle(7, 18, 13, 18, 10, 25); // Beak
+        graphics.generateTexture(textureKey, 20, 35);
+      }
 
       const penguin = this.add.sprite(
         GAME_WIDTH * (0.3 + i * 0.2),
         GAME_HEIGHT * 0.5,
-        graphics.generateTexture(`penguin_${i}`, 20, 35)
+        textureKey
       );
       penguin.setScale(2);
       penguin.setAlpha(0.4);
