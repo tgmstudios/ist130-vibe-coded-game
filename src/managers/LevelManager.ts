@@ -77,7 +77,7 @@ export class LevelManager {
                 name: 'The Summit',
                 background: 'bg_ocean',
                 music: 'music_ending',
-                goalPosition: { x: 1000, y: 110 }, // Adjusted for tower top
+                goalPosition: { x: 1000, y: 70 }, // Adjusted for tower top
                 width: 2000
             };
         default:

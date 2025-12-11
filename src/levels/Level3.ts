@@ -13,7 +13,7 @@ export class Level3 implements ILevel {
         const windZones: Phaser.Types.Physics.Arcade.ImageWithDynamicBody[] = [];
 
         const tileColor = 0x808080; // Rock Grey
-        const levelWidth = 5500;
+        // const levelWidth = 5500;
 
         // --- Ground ---
         this.createFloor(platforms, 0, 1500, tileColor);
@@ -106,9 +106,10 @@ export class Level3 implements ILevel {
         return { platforms, movingPlatforms, collectibles, enemies, goal, windZones, bouncers, npcs };
     }
 
-    private createFloor(group: Phaser.Physics.Arcade.StaticGroup, startX: number, endX: number, color: number) {
+    private createFloor(group: Phaser.Physics.Arcade.StaticGroup, startX: number, endX: number, _color: number) {
         for (let x = startX; x < endX; x += 32) {
-            const p = group.create(x, GAME_HEIGHT - 32, 'cave_tiles')
+            // Using procedural pattern 'pattern_rock'
+            const p = group.create(x, GAME_HEIGHT - 32, 'pattern_rock')
                 .setOrigin(0,0)
                 .setDisplaySize(32, 32);
             p.clearTint();
@@ -116,8 +117,9 @@ export class Level3 implements ILevel {
         }
     }
 
-    private createPlatform(group: Phaser.Physics.Arcade.StaticGroup, x: number, y: number, color: number) {
-        const p = group.create(x, y, 'cave_tiles')
+    private createPlatform(group: Phaser.Physics.Arcade.StaticGroup, x: number, y: number, _color: number) {
+        // Use pattern_rock for platforms too
+        const p = group.create(x, y, 'pattern_rock')
             .setDisplaySize(96, 32)
             .refreshBody();
         p.clearTint();

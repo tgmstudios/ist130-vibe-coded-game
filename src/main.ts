@@ -1,41 +1,6 @@
-console.log('Game script loading...');
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import { createGame } from './game/PhaserGame';
-
-// Initialize the game when the page loads
-function initGame() {
-  console.log('Initializing game...');
-  try {
-    const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
-    if (!canvas) {
-      console.error('Canvas element not found');
-      return;
-    }
-    console.log('Canvas found, creating game...');
-
-    createGame(canvas);
-    console.log('Game started successfully!');
-  } catch (error) {
-    console.error('Failed to initialize game:', error);
-    // Show error message to user
-    const container = document.getElementById('game-container');
-    if (container) {
-      container.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: center; height: 100vh; color: #e8f4f8; font-size: 18px; text-align: center; padding: 20px;">
-          <div>
-            <h2>Error loading game</h2>
-            <p>${error instanceof Error ? error.message : 'Unknown error'}</p>
-            <p style="font-size: 14px; margin-top: 10px;">Check the browser console for details.</p>
-          </div>
-        </div>
-      `;
-    }
-  }
-}
-
-if (document.readyState === 'loading') {
-  window.addEventListener('DOMContentLoaded', initGame);
-} else {
-  // DOM is already ready
-  initGame();
-}
+// Create and mount the Vue application
+const app = createApp(App);
+app.mount('#app');

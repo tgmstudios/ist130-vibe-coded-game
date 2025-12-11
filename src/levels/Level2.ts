@@ -13,7 +13,7 @@ export class Level2 implements ILevel {
         const windZones: Phaser.Types.Physics.Arcade.ImageWithDynamicBody[] = [];
 
         const tileColor = 0x6b4423; // Brown (Dirt/Wood)
-        const levelWidth = 4500;
+        // const levelWidth = 4500;
 
         // --- Ground ---
         // Continuous ground but with some "root" obstacles or gaps
@@ -103,49 +103,13 @@ export class Level2 implements ILevel {
         return { platforms, movingPlatforms, collectibles, enemies, goal, windZones, bouncers, npcs };
     }
 
-    private createFloor(group: Phaser.Physics.Arcade.StaticGroup, startX: number, endX: number, color: number) {
-        // Use tileSprite or repeating image for better performance and look
-        // But StaticGroup expects individual bodies or we manage a large tileSprite with a body?
-        // Simplest: Create individual blocks using the texture 'forest_tiles'
-        // Assuming forest_tiles is 32x32 or similar. 
-        // If it's a tileset sheet, we need to pick a frame. 
-        // If it's a single texture image like a block, we can just use it.
-        // Based on user prompt "terrain_branch.png", it might be a tileset.
-        // Let's assume for now it's a texture we can just use.
-        // Since we don't know the exact dimensions of terrain_branch.png, let's try using it as a fill.
-        
-        // Actually, let's use the 'forest_tiles' image key I loaded in Preloader.
-        // If it's a large image, we might need to crop it or use it as a texture.
-        
+    private createFloor(group: Phaser.Physics.Arcade.StaticGroup, startX: number, endX: number, _color: number) {
         for (let x = startX; x < endX; x += 32) {
-            // Using 'forest_tiles' instead of 'pixel'
-            // We scale it to 32x32 if it's not.
-            // But if it is a tileset, this might look weird (showing the whole sheet).
-            // Let's stick to the color tint fix requested (Brown/Grey) but ensure it applies.
-            // The user said "colors still arent changing". 
-            // My previous edit changed the variable 'tileColor', but if the browser cached it, it wouldn't show.
-            // OR if I used 'forest_tiles' but it has no white pixels, tinting might not work as expected.
-            // 'platform_96x32' IS white. 'pixel' IS white.
-            // So tinting SHOULD work.
-            
-            // Wait, the user said "make sure platform colors match level theme... forrest should have brown for dirt".
-            // If they see green, it means they see the OLD build.
-            // OR I am using the wrong texture.
-            
-            // Let's try to use the actual 'forest_tiles' image if possible, 
-            // but if I just want to fix the COLOR, I should ensure the tint is applied.
-            
-            // Let's switch to using 'forest_tiles' (and 'cave_tiles') directly if they are suitable block textures.
-            // Since I don't know their content, I'll tile them.
-            
-            const p = group.create(x, GAME_HEIGHT - 32, 'forest_tiles')
+            // Using procedural pattern 'pattern_wood'
+            const p = group.create(x, GAME_HEIGHT - 32, 'pattern_wood')
                 .setOrigin(0,0)
-                .setDisplaySize(32, 32); // Force size
-            
-            // If the texture is dark, tint might effectively darken it further.
-            // Let's clear tint if we use a texture, or tint it slightly.
-            p.clearTint(); 
-            
+                .setDisplaySize(32, 32);
+            p.clearTint();
             p.refreshBody();
             p.body.checkCollision.up = true;
             p.body.checkCollision.down = true;
@@ -154,9 +118,9 @@ export class Level2 implements ILevel {
         }
     }
 
-    private createPlatform(group: Phaser.Physics.Arcade.StaticGroup, x: number, y: number, color: number) {
-        // Use forest_tiles for platforms too
-        const p = group.create(x, y, 'forest_tiles')
+    private createPlatform(group: Phaser.Physics.Arcade.StaticGroup, x: number, y: number, _color: number) {
+        // Use pattern_wood for platforms too
+        const p = group.create(x, y, 'pattern_wood')
             .setDisplaySize(96, 32)
             .refreshBody();
         p.clearTint();

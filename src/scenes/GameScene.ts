@@ -192,7 +192,7 @@ export class GameScene extends Phaser.Scene {
       }
   }
   
-  private updateLevelMechanics(time: number, delta: number) {
+  private updateLevelMechanics(_time: number, delta: number) {
       // Wind Physics (Global)
       if (this.levelConfig.physics?.windX) {
           this.player.body!.velocity.x += this.levelConfig.physics.windX * (delta/16);

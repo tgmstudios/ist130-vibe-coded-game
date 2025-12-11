@@ -60,6 +60,21 @@ export class MenuScene extends Phaser.Scene {
         strokeThickness: 2
     }).setOrigin(0.5);
 
+    // Media Player Link
+    const mediaText = this.add.text(GAME_WIDTH - 20, 20, 'Media Player', {
+        fontSize: '20px',
+        color: '#aaddff',
+        stroke: '#000000',
+        strokeThickness: 2
+    })
+    .setOrigin(1, 0)
+    .setInteractive({ useHandCursor: true })
+    .on('pointerover', () => mediaText.setColor('#ffff00'))
+    .on('pointerout', () => mediaText.setColor('#aaddff'))
+    .on('pointerdown', () => {
+        window.open('/media', '_blank');
+    });
+
     const levels = [1, 2, 3, 4, 5];
     const spacing = 80;
     const startX = GAME_WIDTH / 2 - ((levels.length - 1) * spacing) / 2;

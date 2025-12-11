@@ -37,14 +37,20 @@ export class Level5 implements ILevel {
         // Walls (Left and Right)
         // Building up from bottom to top
         for (let y = towerBottom - 64; y > towerTop; y -= 32) {
-             // Left Wall
-             const l = platforms.create(towerLeft, y, 'pixel').setScale(32, 32).setTint(exteriorColor).setOrigin(0,0).refreshBody();
-             l.body.checkCollision.right = true; // Inner face
+             // Left Wall (Doorway check)
+             // Leave a larger gap at the bottom for entry (approx 250px high)
+             if (y < towerBottom - 250) {
+                 const l = platforms.create(towerLeft, y, 'pixel').setScale(32, 32).setTint(exteriorColor).setOrigin(0,0).refreshBody();
+                 l.body.checkCollision.right = true; // Inner face
+             }
              
-             // Right Wall
+             // Right Wall (Solid)
              const r = platforms.create(towerRight, y, 'pixel').setScale(32, 32).setTint(exteriorColor).setOrigin(0,0).refreshBody();
              r.body.checkCollision.left = true; // Inner face
         }
+
+        // Door Lintel (Visual top of door)
+        this.createPlatform(platforms, towerLeft, towerBottom - 250, exteriorColor);
 
         // --- Interior Platforms (The Climb) ---
         // Zig-zagging up
@@ -74,7 +80,7 @@ export class Level5 implements ILevel {
 
         // --- Goal (Marmalade) ---
         // Sitting on the top deck
-        const goal = scene.physics.add.sprite(1000, 110, 'marmalade');
+        const goal = scene.physics.add.sprite(1000, 70, 'marmalade');
         goal.setImmovable(true);
         (goal.body as Phaser.Physics.Arcade.Body).allowGravity = false;
         goal.body.setSize(40, 40);

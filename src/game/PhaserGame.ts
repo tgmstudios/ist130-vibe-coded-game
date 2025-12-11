@@ -19,7 +19,7 @@ export const createGame = (canvas: HTMLCanvasElement) => {
       default: 'arcade',
       arcade: {
         gravity: { x: 0, y: 1000 },
-        debug: true // Set to true to see hitboxes
+        debug: false // Set to true to see hitboxes
       }
     },
     scene: [BootScene, PreloaderScene, MenuScene, PrologueScene, GameScene, HUDScene, EndingScene, PauseScene],
