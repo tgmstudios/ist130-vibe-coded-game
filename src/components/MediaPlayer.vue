@@ -196,7 +196,7 @@ const seek = (event: Event) => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .media-player {
   display: flex;
   height: 100%;
