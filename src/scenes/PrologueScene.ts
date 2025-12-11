@@ -35,11 +35,11 @@ export class PrologueScene extends Phaser.Scene {
     // Scale it up and place it on the side
     this.add.image(GAME_WIDTH * 0.8, GAME_HEIGHT * 0.6, 'lighthouse')
         .setOrigin(0.5, 1)
-        .setScale(1.2)
+        .setScale(0.4)
         .setTint(0xffaa88); // Warm tint
 
     // Door (Visual representation for Marmalade to enter)
-    this.door = this.add.rectangle(GAME_WIDTH * 0.8, GAME_HEIGHT * 0.6, 60, 100, 0x4a3c31)
+    this.door = this.add.rectangle(GAME_WIDTH * 0.8, GAME_HEIGHT * 0.6, 10, 30, 0x4a3c31)
         .setOrigin(0.5, 1);
 
     // Ground
@@ -88,9 +88,9 @@ export class PrologueScene extends Phaser.Scene {
     });
 
     // 5. Narrative Text
-    const text1 = this.add.text(GAME_WIDTH/2, 100, 
-        "Pippin and Marmalade were inseparable...", 
-        { fontSize: '24px', color: '#5c4033', align: 'center', fontStyle: 'italic' }
+    const text1 = this.add.text(GAME_WIDTH/2, 100,
+        "Pippin and Marmalade were inseparable...",
+        { fontSize: '24px', color: '#d4a574', align: 'center', fontStyle: 'italic' }
     ).setOrigin(0.5).setAlpha(0);
 
     const text2 = this.add.text(GAME_WIDTH/2, GAME_HEIGHT - 50, 
