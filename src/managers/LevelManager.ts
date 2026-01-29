@@ -6,6 +6,7 @@ import { Level2 } from '../levels/Level2';
 import { Level3 } from '../levels/Level3';
 import { Level4 } from '../levels/Level4';
 import { Level5 } from '../levels/Level5';
+import { Level6 } from '../levels/Level6';
 
 export class LevelManager {
   private scene: Phaser.Scene;
@@ -19,6 +20,7 @@ export class LevelManager {
     this.levels.set(3, new Level3());
     this.levels.set(4, new Level4());
     this.levels.set(5, new Level5());
+    this.levels.set(6, new Level6());
   }
 
   getLevelConfig(levelId: number): LevelConfig {
@@ -79,6 +81,16 @@ export class LevelManager {
                 music: 'music_ending',
                 goalPosition: { x: 1000, y: 70 }, // Adjusted for tower top
                 width: 2000
+            };
+        case 6:
+            return {
+                ...baseConfig,
+                name: 'The Frozen Depths',
+                background: 'bg_cave',
+                music: 'music_cave',
+                mechanics: { isDark: true },
+                goalPosition: { x: 3800, y: 600 },
+                width: 4000
             };
         default:
             return {
