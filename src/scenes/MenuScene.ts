@@ -75,7 +75,7 @@ export class MenuScene extends Phaser.Scene {
         window.open('/media', '_blank');
     });
 
-    const levels = [1, 2, 3, 4, 5, 6];
+    const levels = [1, 2, 3, 4, 5, 6, 7];
     const spacing = 80;
     const startX = GAME_WIDTH / 2 - ((levels.length - 1) * spacing) / 2;
 
