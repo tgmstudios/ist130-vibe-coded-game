@@ -358,7 +358,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private reachGoal(_player: any, _goal: any) {
-      if (this.currentLevelId < 5) {
+      if (this.currentLevelId < 7) {
           this.scene.start('GameScene', { level: this.currentLevelId + 1 });
       } else {
           if (!this.isEnding) {
